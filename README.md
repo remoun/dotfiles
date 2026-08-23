@@ -88,3 +88,14 @@ disposable machine:
 ```sh
 docker run --rm -v "$PWD:/repo:ro" debian:bookworm bash /repo/install.sh --full
 ```
+
+## Credits
+
+Much of `.zshrc` began life as the [oh-my-zsh][omz] zshrc template, which is
+MIT licensed. A couple of lines are credited inline to their original sources.
+
+[omz]: https://github.com/ohmyzsh/ohmyzsh
+
+## License
+
+MIT — see [LICENSE](LICENSE).
