@@ -336,6 +336,13 @@ EOF
     act "exported LANG=$loc from ~/.zshenv"
 }
 
+# chsh(1) edits /etc/passwd directly, so it cannot touch an account that NSS
+# serves from somewhere else. getent finds such a user, which is why the shell
+# lookup above succeeds right before chsh fails.
+user_in_etc_passwd() {
+    cut -d: -f1 /etc/passwd 2>/dev/null | grep -qxF "$1"
+}
+
 sudo_prefix() {
     if [ "$(id -u)" -eq 0 ]; then
         printf ''
@@ -453,9 +460,11 @@ set_login_shell() {
         return 0
     fi
 
-    local current="${SHELL:-}"
+    local me current
+    me="$(id -un)"
+    current="${SHELL:-}"
     if have getent; then
-        current="$(getent passwd "$(id -un)" | cut -d: -f7)"
+        current="$(getent passwd "$me" | cut -d: -f7)"
     fi
     case "$current" in
         */zsh) ok "already $current"; return 0 ;;
@@ -479,6 +488,18 @@ set_login_shell() {
 
     if run chsh -s "$zsh_path"; then
         act "login shell set to $zsh_path"
+    elif ! user_in_etc_passwd "$me"; then
+        warn "chsh cannot change this account: $me is not in /etc/passwd"
+        cat <<EOF
+
+    $me is served by NSS rather than /etc/passwd (LDAP/SSSD, systemd-homed, or
+    a provider login agent), and chsh only edits /etc/passwd. Set the login
+    shell wherever the account is actually managed. Failing that, have bash
+    hand off to zsh on login:
+
+        echo '[ -z "\$ZSH_VERSION" ] && [ -t 1 ] && exec zsh -l' >> ~/.bashrc
+
+EOF
     else
         warn "chsh failed, run it yourself: chsh -s $zsh_path"
     fi
