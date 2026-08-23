@@ -1,0 +1,68 @@
+[user]
+    name = Remoun Metyas
+    email = remoun@remoun.me
+[github]
+    user = remoun
+[push]
+    default = current
+[alias]
+    abs = absorb
+    ap = add -p
+    br = branch
+    ci = commit
+    ciam = commit --amend
+    co = checkout
+    cp = cherry-pick
+    d = diff
+    dc = diff --cached
+    df = diff
+    dfs = diff --staged
+    f = fetch --prune
+    fa = fetch --all --prune
+    l = log --oneline
+    lg = log -p
+    lgs = log --stat
+    lol = log --graph --decorate --pretty=oneline --abbrev-commit
+    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+    ls = ls-files
+    pl = pull
+    ps = push
+    rba = rebase --abort
+    rbc = rebase --continue
+    rbd = rebase -i origin/development
+    rbm = rebase -i origin/main
+    rbms = rebase -i origin/master
+    rbrc = rebase -i origin/release-candidate
+    spl = "!git stash push -u && git pull && git stash pop"
+    st = status
+[core]
+    filemode = false
+    excludesfile = ~/.gitignore
+    pager = diffr | less -R
+    autocrlf = input
+[interactive]
+    diffFilter = diffr
+[status]
+    showUntrackedFiles = all
+[color]
+  ui = auto
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+[pull]
+    rebase = true
+[rebase]
+    autosquash = true
+[init]
+    defaultBranch = main
+[fetch]
+    prune = true
+[commit]
+#    gpgsign = true
+
+# Must stay last: git applies included values in place, so a bottom include
+# lets ~/.gitconfig.local override anything set above it.
+[include]
+    path = ~/.gitconfig.local

@@ -1,0 +1,11 @@
+report.xml
+*.log
+*.swp
+.DS_Store
+.vagrant
+.aider*
+__pycache__
+venv/
+
+# Claude JSONs
+*.local.json

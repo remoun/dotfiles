@@ -1,0 +1,11 @@
+# case-insensitive searching, unless the pattern has an uppercase character
+--smart-case
+
+--ignore-dir=target
+--ignore-dir=dist
+--ignore-dir=node_modules
+--ignore-dir=vendor
+--ignore-file=ext:cache
+
+--type-add=test:match:/test/
+--type-add=toml:ext:toml
