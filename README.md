@@ -7,7 +7,7 @@ Personal `zsh`, `vim`, `git` and `ack` configuration.
 On a machine that already has the repo:
 
 ```sh
-git clone git@github.com:remoun/dotfiles.git ~/code/dotfiles
+git clone https://github.com/remoun/dotfiles.git ~/code/dotfiles
 ~/code/dotfiles/install.sh
 ```
 
@@ -17,10 +17,16 @@ On a bare VPS, where there is no SSH key for GitHub yet:
 curl -fsSL https://raw.githubusercontent.com/remoun/dotfiles/main/install.sh | bash -s -- --full
 ```
 
-That clones over HTTPS to `~/code/dotfiles`, rewrites `origin` to the SSH URL so
-later pushes work, and re-runs itself from the clone. Set `DOTFILES_DIR` to
-clone somewhere else. Note `bash`, not `sh` — on a minimal Alpine image,
-`apk add bash git curl` first.
+That clones to `~/code/dotfiles` over HTTPS and re-runs itself from the clone.
+Set `DOTFILES_DIR` to clone somewhere else. Note `bash`, not `sh` — on a
+minimal Alpine image, `apk add bash git curl` first.
+
+`origin` is left on HTTPS so a machine with no GitHub key can still pull. To
+push from a clone, point it at SSH:
+
+```sh
+git remote set-url origin git@github.com:remoun/dotfiles.git
+```
 
 ## What it does
 

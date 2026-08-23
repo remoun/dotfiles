@@ -127,8 +127,10 @@ check "detects it is not inside a repo" \
     bash -c "printf '%s' \"\$1\" | grep -q Bootstrapping" _ "$out"
 check "would clone to \$HOME/code/dotfiles" \
     bash -c "printf '%s' \"\$1\" | grep -q 'code/dotfiles'" _ "$out"
-check "rewrites origin to the SSH URL" \
-    bash -c "printf '%s' \"\$1\" | grep -q 'git@github.com:remoun/dotfiles.git'" _ "$out"
+check "clones over HTTPS" \
+    bash -c "printf '%s' \"\$1\" | grep -q 'https://github.com/remoun/dotfiles.git'" _ "$out"
+check "leaves origin on HTTPS (no set-url)" \
+    bash -c "! printf '%s' \"\$1\" | grep -q 'set-url'" _ "$out"
 check "nothing actually created" [ -z "$(ls -A "$H")" ]
 
 echo "== CLI contract =="

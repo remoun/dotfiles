@@ -10,7 +10,6 @@
 set -euo pipefail
 
 REPO_URL_HTTPS="https://github.com/remoun/dotfiles.git"
-REPO_URL_SSH="git@github.com:remoun/dotfiles.git"
 CLONE_DEST="${DOTFILES_DIR:-$HOME/code/dotfiles}"
 
 # Linked into $HOME under the same name. .gitignore is deliberate, not repo
@@ -127,9 +126,6 @@ bootstrap() {
         run mkdir -p "$(dirname "$CLONE_DEST")"
         run git clone "$REPO_URL_HTTPS" "$CLONE_DEST"
         act "cloned to $CLONE_DEST"
-        # Clone over HTTPS so a keyless box works; push over SSH afterwards.
-        run git -C "$CLONE_DEST" remote set-url origin "$REPO_URL_SSH"
-        act "origin set to $REPO_URL_SSH"
     fi
 
     if [ "$DRY_RUN" -eq 1 ]; then
