@@ -177,9 +177,12 @@ link_file() {
     local src="$1" dest="$2"
     local name="${dest##*/}"
 
-    # We always create absolute links, so a raw readlink compare is enough and
-    # avoids readlink -f, which macOS does not have.
-    if [ -L "$dest" ] && [ "$(readlink "$dest")" = "$src" ]; then
+    # Accept a link already pointing at the right file whether it was written
+    # absolute or relative. -ef compares device and inode, so it resolves the
+    # link itself, with no readlink -f (absent on older macOS). A readlink
+    # string compare misses the relative form and so relinks correct files,
+    # backing each one up, on every single run.
+    if [ -L "$dest" ] && [ "$dest" -ef "$src" ]; then
         ok "$name"
         return 0
     fi
