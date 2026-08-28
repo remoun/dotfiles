@@ -12,14 +12,17 @@ set -euo pipefail
 REPO_URL_HTTPS="https://github.com/remoun/dotfiles.git"
 CLONE_DEST="${DOTFILES_DIR:-$HOME/code/dotfiles}"
 
-# Linked into $HOME under the same name. .gitignore is deliberate, not repo
-# metadata: .gitconfig points core.excludesfile at ~/.gitignore.
-DOTFILES=(.ackrc .gitconfig .gitignore .vimrc .zshrc)
+# Linked into $HOME at the same relative path, so an entry may be nested.
+# .gitignore is deliberate, not repo metadata: .gitconfig points
+# core.excludesfile at ~/.gitignore.
+DOTFILES=(.ackrc .claude/CLAUDE.md .gitconfig .gitignore .vimrc .zshrc)
 
 # .vimrc sets undofile + undodir, but vim silently skips writing undo history
 # if the directory is absent, so persistent undo only works once we create it.
+# .claude must exist before link_dotfiles runs, because link_file does not
+# create the parent directory of its destination.
 # The rest are on .zshrc's PATH.
-DIRS=(.vim/undodir .vim-tmp bin .local/bin)
+DIRS=(.claude .vim/undodir .vim-tmp bin .local/bin)
 
 # Created 0700. The oh-my-zsh ssh-agent plugin warns on every shell start
 # without ~/.ssh, and ssh itself refuses a group- or world-readable one.
