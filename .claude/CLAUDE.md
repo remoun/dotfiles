@@ -36,6 +36,14 @@
   Established technical terms that happen to have military roots are
   exempt and stay as they are: deploy, kill a process, abort, attack
   vector, defense in depth, build target, triage.
+- **Favor bulleted lists over prose.** Trial rule, added 2026-08-28;
+  revisit or revert if it makes the writing worse. When the content is a
+  set of parallel items (options, steps, findings, trade-offs, checks,
+  requirements), write a list, not a paragraph. Keep prose where the
+  connective tissue carries the meaning: a single continuous argument, a
+  causal chain, a recommendation and its reasoning. Do not split one
+  thought across bullets to hit a quota, and do not write a one-item
+  list; that is a sentence, so write the sentence.
 
 ## Shell environment
 
